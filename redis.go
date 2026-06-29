@@ -33,6 +33,15 @@ var (
 	onceRedisClient     sync.Once
 )
 
+// Close releases the underlying Redis connection pool. Safe to call on a
+// zero-value Client.
+func (c *Client) Close() error {
+	if c == nil || c.client == nil {
+		return nil
+	}
+	return c.client.Close()
+}
+
 // ConnectRedis creates a connection to Redis server (standalone, cluster, or sentinel)
 func ConnectRedis(ctx context.Context, cfg *RedisConfig) (*Client, error) {
 	// Return existing instance if available and connected
