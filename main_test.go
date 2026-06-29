@@ -14,6 +14,9 @@ type User struct {
 }
 
 func TestRedisClientBasic(t *testing.T) {
+	if testing.Short() {
+		t.Skip("integration test: requires a live Redis server")
+	}
 	ctx := context.Background()
 	cfg := &RedisConfig{
 		Mode:                   "standalone",
